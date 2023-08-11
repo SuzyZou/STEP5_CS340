@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Items</title>
+<h1> Items</h1>
+<link rel="stylesheet" href = "style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,200&family=Tektur&display=swap" rel="stylesheet">
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+  function showform(dowhat) {
+    /*
+    * four DIVS: browse, insert, update, delete
+    * this function sets one visible the others not
+    */
+    if (dowhat == 'insert'){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'block';
+      document.getElementById('update').style.display = 'none';
+      document.getElementById('delete').style.display = 'none';
+    }
+    else if (dowhat == "search"){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('search').style.display = 'block';
+      document.getElementById('update').style.display = 'none';
+      document.getElementById('delete').style.display = 'none';
+    }
+    else if (dowhat == 'update'){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('update').style.display = 'block';
+      document.getElementById('delete').style.display = 'none';
+    }
+    else if (dowhat == 'delete'){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('update').style.display = 'none';
+      document.getElementById('delete').style.display = 'block';
+    }
+    else if (dowhat == 'all'){
+      document.getElementById('browse').style.display = 'block';
+      document.getElementById('insert').style.display = 'block';
+      document.getElementById('update').style.display = 'block';
+      document.getElementById('delete').style.display = 'block';
+    }
+    else { //by default display browse
+      document.getElementById('browse').style.display = 'block';
+      document.getElementById('search').style.display = 'none';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('update').style.display = 'none';
+      document.getElementById('delete').style.display = 'none';
+    }
+  }
+  function newPerson() { showform('insert'); }
+  function searchItems() { showform('search'); }
+  function updatePerson(pid) { showform('update'); }
+  function deletePerson(pid) { showform ('delete'); }
+  function browsePeople() { showform ('browse'); }
+  function showAll() { showform ('all'); }
+</script>
+</head>
+
+
+<body onload="browsePeople()">
+  <head class="h">
+    <nav class="navbar">
+        <ul class = "navlist">
+            <li class = "home"><a href="./index.html">Home</a> </li>
+            <li class = "add_item_link"><a href="./customers.html">Customers</a></li>
+            <li class = "add_order_link"><a href = "./orders.html">Orders</a></li>
+            <li class = "add_order_link"><a href = "./items.html">Items</a></li> 
+            <li class = "add_order_link"><a href = "./reviews.html">Reviews</a></li>
+            <li class = "add_order_link"><a href = "./categories.html">Categories</a></li>
+
+              <input type="text" placeholder="Search..">
+        </ul>
+    </nav>
+  </head>
+
+<div class="button-container">
+  <a href="#" id="displayAllForms" onClick="showAll()" class="circular-button">All Forms</a>
+</div>
+<div id="browse">
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newPerson()">New</a></th>
+    <th><a href="#" onClick="searchItems()">Search</a></th>
+    <th>itemID</th>
+    <th>reviewID</th>
+    <th>categoryID</th>
+    <th>itemName</th>
+    <th>Price</th>
+   
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updatePerson('this.personID')">Edit</a></td>
+    <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <td align="right" >1</td>
+    <td align="right" >30</td>
+    <td align="right" >500</td>
+    <td align="right" >ipad</td>
+    <td align="right" >$729</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updatePerson('this.personID')">Edit</a></td>
+    <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <td align="right" >2</td>
+    <td align="right" >31</td>
+    <td align="right" >501</td>
+    <td align="right" >phone</td>
+    <td align="right" >$629</td>
+
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updatePerson('this.personID')">Edit</a></td>
+    <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <td align="right" >3</td>
+    <td align="right" >32</td>
+    <td align="right" >502</td>
+    <td align="right" >laptop</td>
+    <td align="right" >$999</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</div> 
+
+<div id="insert">
+  <form method="POST" id="addPlanet">
+      <legend><strong>Add Item</strong></legend>
+        <fieldset class="fields">
+          <label><strong>reviewID:</strong> </label><select name ="customerID">
+            <option value="0">&nbsp;</option>
+            <option value="1">33</option>
+            <option value="2">34</option>
+            <option value="3">35</option>
+           <option value="4">36</option>
+           <option value="5">37</option>
+           <option value="6">38</option>
+         </select>
+          <label> itemName </label> <input type="text" name="itemName">
+          <label> price</label> <input type="text" name="price">
+    </fieldset>
+        <input class="btn" type="submit" id="addPerson" value="Add Item">
+        <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+</form> 
+</div><!-- insert -->
+
+<!--this is for search -->
+<div id="search">
+  <form method="POST" id="addPlanet">
+      <legend><strong>Search Order</strong></legend>
+        <fieldset class="fields">
+          <label> OrderID </label> <input type="text" name="firstName">      
+       </fieldset>
+        <input class="btn" type="submit" id="addPerson" value="Search Order">
+        <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+  </form> 
+</div>
+
+
+
+
+
+<!-- this section is for update a customer  -->
+<div id="update">
+  <form method="POST" id="addPlanet">
+    <legend><strong>Update Item</strong></legend>
+      <fieldset class="fields">
+        <label><strong>reviewID:</strong> </label><select name ="customerID">
+          <option value="0">&nbsp;</option>
+          <option value="1">30</option>
+          <option value="2">31</option>
+          <option value="3">32</option>
+     
+       </select>
+       <label><strong>itemName:</strong> </label><select name ="customerID">
+        <option value="0">&nbsp;</option>
+        <option value="1">phone</option>
+        <option value="2">ipad</option>
+        <option value="3">laptop</option>
+   
+     </select>
+        <label> price</label> <input type="text" name="price">
+  </fieldset>
+      <input class="btn" type="submit" id="addPerson" value="Add Item">
+      <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+</form> 
+</div><!-- update -->
+
+<!-- this  is for delete a person -->
+<div id="delete" style="display: block">
+  <form method="POST" id="deletePerson">
+      <lable><strong>Delete Item</strong></lable></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="personID" id="deletepersonID" value="1">
+          <label><strong>Item ID</strong></label> <select name ="customerID">
+            <option value="0">&nbsp;</option>
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+         </select>
+     </label> 
+            
+    </fieldset>
+    <input class="btn" type="submit" id="DeletePerson" value="Delete Item">
+          <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+<footer>
+  <p>2023©Max Zimmer & Suzy Zou (Ya Zou)<br>
+</footer>
+</html>

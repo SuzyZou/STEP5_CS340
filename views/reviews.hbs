@@ -1,0 +1,86 @@
+<head>
+  <h1>Reviews</h1>
+<body onload="browsePeople()">
+    <nav class="navbar">
+        <ul class = "navlist">
+            <li class = "home"><a href="/home">Home</a> </li>
+            <li class = "add_item_link"><a href="/">Customers</a></li>
+            <li class = "add_order_link"><a href = "/orders">Orders</a></li>
+            <li class = "add_order_link"><a href = "/items">Items</a></li> 
+            <li class = "add_order_link"><a href = "/reviews">Reviews</a></li>
+            <li class = "add_order_link"><a href = "/categories">Categories</a></li>
+        </ul>
+    </nav>
+<body>
+</head>
+
+
+ <div id ="browse">
+    <td><a href="#" onClick="newPerson()">Add</a></td>
+    {{!-- <td><a href="#" onClick="searchCustomer()">Search</a></td>
+    <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td>  --}}
+</div>
+
+
+
+
+<table id= "browse"> 
+    {{!-- Header section --}}
+    <thead >
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            {{!-- <td></td>
+            <td> </td> --}}
+            <td>{{this.reviewID}}</td>
+            <td>{{this.customerID}}</td>
+            <td>{{this.overallRating}}</td>
+            <td>{{this.feedback}}</td>    
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+ <div class="button-container">
+    <a href="#" id="displayAllForms" onClick="showAll()" class="circular-button">All Forms</a>
+  </div>
+
+
+  <!--insert An Item -->
+<form id="insert" method="POST" action="/add-order-form">
+<fieldset class="fields">
+    <legend><strong>ADD A Review </strong></legend>
+        <label><strong>CustomerID:</strong> </label>
+           <select name="delete-customer" id="delete-customer">
+            {{#each data}}
+            <a href="/deleteCustomer/{{this.customerID}}"><option value="{{this.customerID}}">{{this.customerID}}</option></a>
+            {{/each}}
+        </select>
+          </label>     
+
+    <label for="input-item-name">overallRating: </label>
+    <input type="text" name="input-item-name" id="input-item-name">
+
+     <label for="input-price">feedback: </label>
+    <input type="text" name="input-price" id="input-price">
+
+   </fieldset>
+    <input class="btn" type="submit" id="addPerson" value="Add">
+     <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+</form>
+</div>

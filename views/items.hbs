@@ -1,0 +1,167 @@
+<head>
+  <h1>Items</h1>
+<body onload="browsePeople()">
+    <nav class="navbar">
+        <ul class = "navlist">
+            <li class = "home"><a href="/home">Home</a> </li>
+            <li class = "add_item_link"><a href="/">Customers</a></li>
+            <li class = "add_order_link"><a href = "/orders">Orders</a></li>
+            <li class = "add_order_link"><a href = "/items">Items</a></li> 
+            <li class = "add_order_link"><a href = "/reviews">Reviews</a></li>
+            <li class = "add_order_link"><a href = "/categories">Categories</a></li>
+        </ul>
+    </nav>
+<body>
+</head>
+
+ {{!-- buttons on the top of the page --}}
+ <div id ="browse">
+    <td><a href="#" onClick="newPerson()">Add</a></td>
+    {{!-- <td><a href="#" onClick="searchCustomer()">Search</a></td> --}}
+    <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td> 
+</div>
+
+
+
+<table id= "browse"> 
+    {{!-- Header section --}}
+    <thead >
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            {{!-- <td><a href="#" onClick="updatePerson('this.personID')">Update</a><td> --}}
+            <td>{{this.itemID}}</td>
+            <td>{{this.reviewID}}</td>
+            <td>{{this.categoryID}}</td>
+            <td>{{this.itemName}}</td>
+            <td>{{this.price}}</td>    
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+ <div class="button-container">
+    <a href="#" id="displayAllForms" onClick="showAll()" class="circular-button">All Forms</a>
+</div>
+
+
+
+<!--Searching A customer -->
+<div id="search"   style="display: block" >           
+  <form method="POST" id="searchCustomer" action = "/searchCustomer">
+      <legend><strong>Search A Customer</strong></legend>
+        <fieldset class="fields" id="addperson">
+        <label> Last Name: </label> <input type="text" name="lname">       
+       </fieldset>
+         <input class="btn" type="submit" id="addPerson" value="Search Customer">
+        <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+  </form> 
+</div>
+
+
+
+
+
+
+
+<!--insert An Item -->
+<form id="insert" method="POST" action="/add-order-form">
+<fieldset class="fields">
+    <legend><strong>ADD An Item </strong></legend>
+        <label><strong>reviewID:</strong> </label>
+           <select name="add-reviewID" id="add-reviewID">
+                {{#each data}}
+                <a href="/addAnItem/{{this.reviewID}}"><option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
+                {{/each}}
+           </select>
+        </label>    
+    
+     <label><strong>categoryID:</strong> </label>
+           <select name="add-categoryID" id="add-categoryID">
+                {{#each data}}
+                <a href="/addAnItem/{{this.categoryID}}"><option value="{{this.categoryID}}">{{this.categoryID}}</option></a>
+                {{/each}}
+           </select>
+
+    <label for="input-item-name">itemName: </label>
+    <input type="text" name="input-item-name" id="input-item-name">
+
+     <label for="input-price">price: </label>
+    <input type="text" name="input-price" id="input-price">
+
+   </fieldset>
+    <input class="btn" type="submit" id="addPerson" value="Add">
+     <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+</form>
+</div>
+
+<!--insert An Item -->
+<form id="update" method="POST" action="/update-item">
+<fieldset class="fields">
+
+    <legend><strong>Update An Item </strong></legend>
+        <label><strong>reviewID:</strong> </label>
+           <select name="add-reviewID" id="add-reviewID">
+                {{#each data}}
+                <a href="/addAnItem/{{this.reviewID}}"><option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
+                {{/each}}
+           </select>
+        </label>    
+    
+        <label><strong>categoryID:</strong> </label>
+           <select name="add-categoryID" id="add-categoryID">
+                {{#each data}}
+                <a href="/addAnItem/{{this.categoryID}}"><option value="{{this.categoryID}}">{{this.categoryID}}</option></a>
+                {{/each}}
+           </select>
+
+    <label for="input-item-name">itemName: </label>
+    <input type="text" name="input-item-name" id="input-item-name">
+
+     <label for="input-price">price: </label>
+    <input type="text" name="input-price" id="input-price">
+
+   </fieldset>
+    <input class="btn" type="submit" id="addPerson" value="Add">
+     <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+</form>
+</div>
+
+
+
+
+{{!-- Delete an item --}}
+<div id="delete" style="display: block">
+  <form method="POST" id="deleteCustomer" action="/deleteCustomer">
+      <legend><strong>Delete An item </strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <label><strong>itemID:</strong> </label>
+           <select name="delete-customer" id="delete-customer">
+                {{#each data}}
+                <a href="/deleteCustomer/{{this.itemID}}"><option value="{{this.itemID}}">{{this.itemID}}</option></a>
+                {{/each}}
+           </select>
+        </label>     
+    </fieldset>
+    <input class="btn" type="submit" id="DeletePerson" value="Delete">
+    <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+  </form> 
+</div>
+
