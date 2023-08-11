@@ -85,7 +85,7 @@
 <fieldset class="fields" id = "order-table">
     <legend><strong>ADD An Order </strong></legend>
         <label><strong>CustomerID:</strong> </label>
-           <select name="customerIDV" id="customerIDV">
+           <select name="input-orderID" id="input-orderID">
                 {{#each data}}
                 <a href="/deleteCustomer/{{this.customerID}}"><option value="{{this.customerID}}">{{this.customerID}}</option></a>
                 {{/each}}

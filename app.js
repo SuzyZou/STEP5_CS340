@@ -83,10 +83,7 @@ app.post("/deleteCustomer",function(req,res){
      //Run query
      db.pool.query(query1, function(error, rows, fields){
         // Save the customer
-        let customer = rows;
-        console.log("customers in the deletedatabase:",customer)
-
-        return res.render('customers', {data: customer});
+        return res.redirect('/')
     })
 
 })
@@ -164,7 +161,7 @@ app.post('/add-order-form', function(req, res){
     console.log("recived data:",data)
 
     // Create the query and run it on the database
-    query1 = `INSERT INTO Orders (customerID, orderDate, creditCardNumb, creditCardExpDate,numOrderedItems,pricePaid) VALUES ('${data['input-fname']}', '${data['input-lname']}', '${data['input-emailAdresses']}','${data['input-address']}', '${data['input-city']}')`;
+    query1 = `INSERT INTO Orders (customerID, orderDate, creditCardNumb, creditCardExpDate,numOrderedItems,pricePaid) VALUES ('${data['input-orderID']}', '${data['input-orderDate']}', '${data['input-creditCardNumb']}','${data['input-creditCardExpDate']}', '${data['input-numOrderedItems']}','${data['input-pricePaid']}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -180,7 +177,7 @@ app.post('/add-order-form', function(req, res){
         // presents it on the screen
         else
         {
-            res.redirect('/');
+            res.redirect('/orders');
         }
     })
 })
@@ -223,6 +220,7 @@ app.get('/customers',function(req,res){
     })
      
  });
+ 
 
  app.get('/categories',function(req,res){
    

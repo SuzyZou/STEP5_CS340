@@ -8,7 +8,7 @@ addOrderForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   // Get form fields we need to get data from
-  let inputCustomerID = document.getElementById("customerIDV");
+  let inputCustomerID = document.getElementById("input-orderID");
   let inputOrderDate = document.getElementById("input-orderDate");
   let inputCreditCardNumb = document.getElementById("input-creditCardNumb");
   let inputCreditCardExpDate = document.getElementById("input-creditCardExpDate");

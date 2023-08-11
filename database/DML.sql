@@ -1,37 +1,42 @@
--- To continue the example from above, if you have 5 tables in your schema, then at a minimum, we expect you to implement 5 SELECTs, 5 INSERTs, 1 UPDATE (M:N), 1 DELETE (M:N; causing no data anomalies), 1 NULLable relationship, and 1 Search/Dynamic for a total of 14 functions.
+-- ************************************************************************
+--                         Requirment
+-- We have 5 tables( Categories, Cutstomers, Items, Orders, Reviews) and 1 composite table(ordersItem): we need to  implement 3 SELECTS, 5 INSERTS, 1 update(M:N),1 DELETE (M:N; )causing no data anomalies), 1 NULLable relationship, and 1 Search/Dynamic for a total of 14 functions.
+-- *************************************************************************
 
--- Our tables:  categories, cutstomers, Items, Orders, Reviews
 
+-- *************************************************************************
+--                      Select Statements
+-- ************************************************************************
 
--- --------------------------------------------------------------------------------------------
--- ---------------------------------Select Statements------------------------------------------
-SELECT firstName, lastName 
-FROM Customers 
-Where customerID = :selected_customer_id;
+-- =========Seletc Statements for displaying sample data on different pages
+SELECT *
+FROM Customers;
 
-SELECT categoryName 
+SELECT *
 FROM Categories 
-WHERE categoryID = :selected_category_id;
+WHERE;
 
-SELECT itemName, price 
+SELECT *
 FROM Items 
-WHERE itemID = :selected_item_id;
+WHERE;
 
-SELECT orderDate, numOrderedItems, pricePaid 
-FROM Orders 
-WHERE orderID = :selected_order_id;
+SELECT orderID, customerID, DATE_FORMAT(orderDate, '%b %e, %Y') as orderDate, creditCardNumb, DATE_FORMAT(creditCardExpDate, '%b %e, %Y') as creditCardExpDate, numOrderedItems, pricePaid 
+FROM Orders;
 
-SELECT overallRating, feedback 
-FROM Reviews 
-WHERE reviewID = :selected_review_id;
+SELECT * 
+FROM Reviews;
+
+-- Select for the Dinamically search on the Customers page 
+SELECT * 
+FROM Customers 
+WHERE lastName LIKE ${req.query.lastName}%;
 
 
--- --------------------------------------------------------------------------------------------
--- ---------------------------------Insert  Statements------------------------------------------
-
-INSERT INTO Customers(lastName, firstName, emailAddress, address, city)
-VALUES
-(:lastName_input, :firstName_input, :emailAddress_input, :address_input, :city_input);
+-- *************************************************************************
+--                      Insert Statements
+-- ************************************************************************
+INSERT INTO Customers (firstName, lastName, emailAddress, address,city) 
+VALUES ('${data['input-fname']}', '${data['input-lname']}', '${data['input-emailAdresses']}','${data['input-address']}', '${data['input-city']}');
 
 INSERT INTO Categories(categoryName)
 VALUES
@@ -41,16 +46,15 @@ INSERT INTO Items(reviewID,	categoryID,	itemName,	price)
 VALUES
 (:reviewID_input, :categoryID_input_dropdown, :itemName_input, :price_input);
 
-INSERT INTO Orders(customerID, orderDate, creditCardNumb, creditCardExpDate, numOrderedItems, pricePaid)
-VALUES
-(:customerID_input_dropdown, :orderDate_input, :creditCardNumb_input, :creditCardExpDate_input, :numOrderedItems_input, :pricePaid_input);
+ INSERT INTO Orders (customerID, orderDate, creditCardNumb, creditCardExpDate,numOrderedItems,pricePaid) 
+ VALUES ('${data['input-orderID']}', '${data['input-orderDate']}', '${data['input-creditCardNumb']}','${data['input-creditCardExpDate']}', '${data['input-numOrderedItems']}','${data['input-pricePaid']}');
 
 INSERT into Reviews(customerID, overallRating, feedback)
 VALUES
 (:customerID_input_dropdown, overallRating_input, feedback_input);
 
 -- --------------------------------------------------------------------------------------------
--- ---------------------------------Delete Statements------------------------------------------
+-- ---------------------------------DeleteStatements------------------------------------------
 
 DELETE from Items where itemName = :itemName_input;
 Update orderItems
