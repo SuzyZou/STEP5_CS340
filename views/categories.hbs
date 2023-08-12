@@ -28,7 +28,6 @@
 <table id= "browse"> 
     {{!-- Header section --}}
     <thead >
-        {{!-- <td><a href="#" onClick="searchCustomer()">Search</a></td> --}}
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
@@ -56,15 +55,18 @@
 </table>
 
 
-<!--insert An Item -->
-<form id="insert" method="POST" action="/add-order-form">
+<!--insert A Category-->
+<div id="insert">
+<form id="add-category-form" method="POST" action="/add-category-form">
 <fieldset class="fields">
 
-    <label for="input-item-name">categoryName: </label>
-    <input type="text" name="input-item-name" id="input-item-name">
+    <label for="input-category-name">categoryName: </label>
+    <input type="text" name="input-category-name" id="input-category-name">
 
    </fieldset>
     <input class="btn" type="submit" id="addPerson" value="Add">
      <input class="btn" type="button" value="cancel" onClick="browsePeople()">
 </form>
 </div>
+
+<script src ="./js/addCategories.js">  </script> 

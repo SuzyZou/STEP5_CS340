@@ -42,9 +42,8 @@ INSERT INTO Categories(categoryName)
 VALUES
 (:categoryName_input);
 
-INSERT INTO Items(reviewID,	categoryID,	itemName,	price)
-VALUES
-(:reviewID_input, :categoryID_input_dropdown, :itemName_input, :price_input);
+INSERT INTO Items (reviewID, categoryID, itemName, price) 
+VALUES ('${data['input-reviewID']}', '${data['input-categoryID']}', '${data['input-item-name']}','${data['input-price']}');
 
  INSERT INTO Orders (customerID, orderDate, creditCardNumb, creditCardExpDate,numOrderedItems,pricePaid) 
  VALUES ('${data['input-orderID']}', '${data['input-orderDate']}', '${data['input-creditCardNumb']}','${data['input-creditCardExpDate']}', '${data['input-numOrderedItems']}','${data['input-pricePaid']}');

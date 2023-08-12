@@ -1,3 +1,5 @@
+ -- We have 5 tables( Categories, Cutstomers, Items, Orders, Reviews) and 1 composite table(ordersItem):
+
 -- create Customers table 
 DROP TABLE IF EXISTS Customers;
 CREATE TABLE Customers (

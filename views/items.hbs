@@ -30,7 +30,7 @@
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
+            {{#each Items.[0]}}
             <th>
                 {{@key}}
             </th>
@@ -42,9 +42,8 @@
     <tbody>
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
+        {{#each Items}}
         <tr>
-            {{!-- <td><a href="#" onClick="updatePerson('this.personID')">Update</a><td> --}}
             <td>{{this.itemID}}</td>
             <td>{{this.reviewID}}</td>
             <td>{{this.categoryID}}</td>
@@ -61,7 +60,6 @@
 </div>
 
 
-
 <!--Searching A customer -->
 <div id="search"   style="display: block" >           
   <form method="POST" id="searchCustomer" action = "/searchCustomer">
@@ -76,26 +74,23 @@
 
 
 
-
-
-
-
 <!--insert An Item -->
-<form id="insert" method="POST" action="/add-order-form">
+<div id ="items-table">
+<form id="insert" method="POST" action="/add-item-form">
 <fieldset class="fields">
     <legend><strong>ADD An Item </strong></legend>
         <label><strong>reviewID:</strong> </label>
-           <select name="add-reviewID" id="add-reviewID">
-                {{#each data}}
-                <a href="/addAnItem/{{this.reviewID}}"><option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
+           <select name="input-reviewID" id="input-reviewID">
+                {{#each Reviews}}
+                <option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
                 {{/each}}
            </select>
         </label>    
     
      <label><strong>categoryID:</strong> </label>
-           <select name="add-categoryID" id="add-categoryID">
-                {{#each data}}
-                <a href="/addAnItem/{{this.categoryID}}"><option value="{{this.categoryID}}">{{this.categoryID}}</option></a>
+           <select name="input-categoryID" id="input-categoryID">
+                {{#each Categories}}
+                <option value="{{this.categoryID}}">{{this.categoryID}}</option></a>
                 {{/each}}
            </select>
 
@@ -111,7 +106,7 @@
 </form>
 </div>
 
-<!--insert An Item -->
+<!--Update An Item -->
 <form id="update" method="POST" action="/update-item">
 <fieldset class="fields">
 
@@ -142,8 +137,6 @@
      <input class="btn" type="button" value="cancel" onClick="browsePeople()">
 </form>
 </div>
-
-
 
 
 {{!-- Delete an item --}}

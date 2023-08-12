@@ -1,17 +1,18 @@
 <head>
-  <h1>Orders</h1>
-<body onload="browsePeople()">
-    <nav class="navbar">
-        <ul class = "navlist">
-            <li class = "home"><a href="/home">Home</a> </li>
-            <li class = "add_item_link"><a href="/">Customers</a></li>
-            <li class = "add_order_link"><a href = "/orders">Orders</a></li>
-            <li class = "add_order_link"><a href = "/items">Items</a></li> 
-            <li class = "add_order_link"><a href = "/reviews">Reviews</a></li>
-            <li class = "add_order_link"><a href = "/categories">Categories</a></li>
-        </ul>
-    </nav>
-<body>
+    <h1>Orders</h1>
+    <body onload="browsePeople()">
+        <nav class="navbar">
+            <ul class = "navlist">
+                <li class = "home"><a href="/home">Home</a> </li>
+                <li class = "add_item_link"><a href="/">Customers</a></li>
+                <li class = "add_order_link"><a href = "/orders">Orders</a></li>
+                <li class = "add_order_link"><a href = "/items">Items</a></li> 
+                <li class = "add_order_link"><a href = "/reviews">Reviews</a></li>
+                <li class = "add_order_link"><a href = "/categories">Categories</a></li>
+            </ul>
+        </nav>
+    </body>
+    
 </head>
 
  <div class="button-container">
@@ -23,9 +24,7 @@
     <td><a href="#" onClick="newPerson()">Add</a></td>
     {{!-- <td><a href="#" onClick="searchCustomer()">Search</a></td> --}}
     <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
-    <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td> 
   </div>
-
 
 
 
@@ -35,7 +34,7 @@
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
+            {{#each orders.[0]}}
             <th>
                 {{@key}}
             </th>
@@ -46,28 +45,30 @@
     {{!-- Body section --}}
     <tbody>
 
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
+        {{#each orders}}
         <tr>
-            {{!-- <td> </td> --}}
             <td>{{this.orderID}}</td>
             <td>{{this.customerID}}</td>
             <td>{{this.orderDate}}</td>
             <td>{{this.creditCardNumb}}</td>
             <td>{{this.creditCardExpDate}}</td>
             <td>{{this.numOrderedItems}}</td>
-             <td>{{this.pricePaid}}</td>   
+            <td>{{this.pricePaid}}</td> 
+            <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td>   
         </tr>
         {{/each}}
     </tbody>
 </table>
 
 
+
+
+
 <!--Search An Order -->
 <div id="search"   style="display: block" >           
   <form method="POST" id="searchOrder" action = "/searchOrder">
       <legend><strong>Search An Order</strong></legend>
-        <label><strong>CustomerID:</strong> </label>
+        <label><strong>OrderID:</strong> </label>
            <select name="delete-customer" id="delete-customer">
             {{#each data}}
             <a href="/deleteCustomer/{{this.customerID}}"><option value="{{this.customerID}}">{{this.customerID}}</option></a>
@@ -85,10 +86,10 @@
 <fieldset class="fields" id = "order-table">
     <legend><strong>ADD An Order </strong></legend>
         <label><strong>CustomerID:</strong> </label>
-           <select name="input-orderID" id="input-orderID">
-                {{#each data}}
-                <a href="/deleteCustomer/{{this.customerID}}"><option value="{{this.customerID}}">{{this.customerID}}</option></a>
-                {{/each}}
+           <select name="input-customerID" id="input-customerID">
+                {{#each customers}}
+                <option value="{{this.customerID}}"> {{this.firstName}} {{this.lastName}}({{this.customerID}})</option>
+                {{/each}} 
            </select>
         </label>    
         
@@ -160,14 +161,14 @@
 
 <!--Deleting An Order -->
 <div id="delete" style="display: block">
-  <form method="POST" id="deleteCustomer" action="/deleteCustomer">
+  <form method="POST" id="deleteOrder" action="/deleteOrder">
       <legend><strong>Delete An order </strong></legend>
           <fieldset class="fields">
           <p>Are you sure you wish to delete the following?</p>
           <label><strong>orderID:</strong> </label>
-           <select name="delete-customer" id="delete-customer">
-                {{#each data}}
-                <a href="/deleteCustomer/{{this.orderID}}"><option value="{{this.orderID}}">{{this.orderID}}</option></a>
+           <select name="delete-order" id="delete-order">
+                {{#each orders}}
+                <option value= "{{this.orderID}}">{{this.orderID}}</option>
                 {{/each}}
            </select>
         </label>     

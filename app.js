@@ -29,11 +29,6 @@ app.post('/searchCustomer', function(req, res)
 
     // let query1;
     let userInput = req.body.lname
-    // console.log("userinput is",userInput)
-
-    // If there is no query string, we just perform a basic SELECT
-    // console.log("data",req)
-    
 
     if (userInput === undefined)
     {
@@ -62,12 +57,6 @@ app.post('/searchCustomer', function(req, res)
 });
 
 
-
-
-
-
-
-
 app.post("/deleteCustomer",function(req,res){
     let userInput1 = req.body
     let data = userInput1['delete-customer']
@@ -87,6 +76,28 @@ app.post("/deleteCustomer",function(req,res){
     })
 
 })
+
+app.post("/deleteOrder",function(req,res){
+    let userInput1 = req.body
+    let data = userInput1['delete-order']
+    console.log("userinput1",data)
+    if (data === undefined){
+        queryDeleteOrder = `SELECT 
+        * FROM Orders;`
+    }else{
+        queryDeleteOrder = `DELETE 
+                       FROM Orders
+                       WHERE orderID = ${data};`
+     }
+     //Run query
+     db.pool.query(queryDeleteOrder, function(error, rows, fields){
+        // Save the customer
+        return res.redirect('/orders')
+    })
+
+})
+
+
 
 
 
@@ -141,6 +152,7 @@ app.post('/add-person-form', function(req, res){
             console.log(error)
             res.status(404).render('error', {
                 page: req.url,
+                errorContent:"We're sorry for the inconvenience caused by our system's limitation on using the same email address twice. Your understanding is appreciated as we work to improve our services. "
             });
         }
 
@@ -161,7 +173,7 @@ app.post('/add-order-form', function(req, res){
     console.log("recived data:",data)
 
     // Create the query and run it on the database
-    query1 = `INSERT INTO Orders (customerID, orderDate, creditCardNumb, creditCardExpDate,numOrderedItems,pricePaid) VALUES ('${data['input-orderID']}', '${data['input-orderDate']}', '${data['input-creditCardNumb']}','${data['input-creditCardExpDate']}', '${data['input-numOrderedItems']}','${data['input-pricePaid']}')`;
+    query1 = `INSERT INTO Orders (customerID, orderDate, creditCardNumb, creditCardExpDate,numOrderedItems,pricePaid) VALUES ('${data['input-customerID']}', '${data['input-orderDate']}', '${data['input-creditCardNumb']}','${data['input-creditCardExpDate']}', '${data['input-numOrderedItems']}','${data['input-pricePaid']}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -183,8 +195,72 @@ app.post('/add-order-form', function(req, res){
 })
 
 
+app.post('/add-item-form',function(req,res){
+     // Capture the incoming data and parse it back to a JS object
+     let data = req.body;
+     console.log("recived data from  add order form:",data)
+     // Create the query and run it on the database
+     inserItems = `INSERT INTO Items (reviewID, categoryID, itemName, price) VALUES ('${data['input-reviewID']}', '${data['input-categoryID']}', '${data['input-item-name']}','${data['input-price']}')`;
+     db.pool.query(inserItems, function(error, rows, fields){
+ 
+         // Check to see if there was an error
+         if (error) {
+             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+             console.log(error)
+             res.status(404).render('error', {
+                 page: req.url,
+             });
+         }
+         else{
+            res.redirect('/items',);
+         }
+     })
 
 
+})
+
+// POST ROUTE
+app.post('/add-review-form',function(req,res){
+    let data = req.body;
+     console.log("recived data from  add-review-from form:",data)
+     // Create the query and run it on the database
+     inserItems = `INSERT INTO Reviews (customerID, overallRating, feedback) VALUES('${data['input-customerID']}', '${data['input-overall-rating']}', '${data['input-feedback']}')`;
+     db.pool.query(inserItems, function(error, rows, fields){
+         // Check to see if there was an error
+         if (error) {
+             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+             console.log(error)
+             res.status(404).render('error', {
+                 page: req.url,
+             });
+         }
+         else{
+            res.redirect('/reviews',);
+         }
+     })
+
+
+})
+
+
+app.post('/add-category-form',function(req,res){
+    let data = req.body;
+    console.log ("data recevied in the add category form: ",data)
+    let categoryQuery = `INSERT INTO Categories(categoryName) VALUES('${data['input-category-name']}')`;
+    db.pool.query(categoryQuery, function(error, rows, fields){
+        // Check to see if there was an error
+        if (error){
+            console.log(error)
+            res.status(404).render('error', {
+                page: req.url,
+            });
+        }else{
+           res.redirect('/categories',);
+        }
+          
+     });
+
+});
 
 
 app.get('/customers',function(req,res){
@@ -202,25 +278,50 @@ app.get('/customers',function(req,res){
  app.get('/orders',function(req,res){
    
     query1 = "SELECT orderID, customerID, DATE_FORMAT(orderDate, '%b %e, %Y') as orderDate, creditCardNumb, DATE_FORMAT(creditCardExpDate, '%b %e, %Y') as creditCardExpDate, numOrderedItems, pricePaid FROM Orders;"
-    db.pool.query(query1, function(error, rows, fields){
-        let orders = rows;
-        res.render('orders', {data:orders});  
+    
+    CustomerQU2 = "SELECT * FROM Customers;"
+
+    db.pool.query(query1, function(error, orders, fields){
+          
+        db.pool.query(CustomerQU2,function(error,customer,fields){
+                
+           
+            res.render(
+                'orders',{orders:orders,
+                customers:customer}
+                );     
+        })
+       
     })
      
  });
 
+
  app.get('/items',function(req,res){
    
-    query4 = "SELECT * FROM Items;";
-    db.pool.query(query4, function(error, rows, fields){
-        
-        // Use the data to render the HTML page
-        let orders = rows;
-        res.render('items', {data:orders});  
+    queryReview = "SELECT * FROM Reviews;"
+    queryCategory = "SELECT * FROM Categories"
+    queryItems = "SELECT * FROM Items;"
+    db.pool.query(queryReview, function(error, reviewRows, fields){
+        db.pool.query(queryCategory, function(error, categoryRows, fields){
+            db.pool.query(queryItems, function(error, itemrows, fields){  
+               if (error){
+
+               }else{
+                res.render('items', {
+                    Reviews:reviewRows,
+                    Categories: categoryRows,
+                    Items: itemrows
+                });  
+               }
+                
+            })
+
+        })
+       
     })
      
  });
- 
 
  app.get('/categories',function(req,res){
    
@@ -228,20 +329,25 @@ app.get('/customers',function(req,res){
     db.pool.query(query4, function(error, rows, fields){
         
         // Use the data to render the HTML page
-        let orders = rows;
-        res.render('categories', {data:orders});  
+        let categories = rows;
+        res.render('categories', {data:categories});  
     })
      
  });
 
  app.get('/reviews',function(req,res){
    
-    query4 = "SELECT * FROM Reviews;";
-    db.pool.query(query4, function(error, rows, fields){
+    queryReview = "SELECT * FROM Reviews;";
+    queryCustomer = "SELECT * FROM Customers;"
+    db.pool.query( queryReview, function(error, reviewRows, fields){
         
-        // Use the data to render the HTML page
-        let orders = rows;
-        res.render('reviews', {data:orders});  
+        db.pool.query(queryCustomer , function(error, customerRows, fields){
+            
+            res.render('reviews', {Reviews:reviewRows,
+                Customers: customerRows
+            }); 
+        })
+         
     })
      
  });
@@ -249,14 +355,12 @@ app.get('/customers',function(req,res){
 
  app.get('/home',function(req,res){
    
-    res.render('home');  
+    res.render('home',{title: "Home Page",
+        path:"./public/img/OSU_symbol.jpeg"
+
+    });  
     
  });
-
-
-
-
-
 
 
 
