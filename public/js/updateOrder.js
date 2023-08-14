@@ -1,5 +1,5 @@
 // Grab the addOrderForm 
-let addOrderForm = document.getElementById('insert');
+let addOrderForm = document.getElementById('update-form');
 
 // Modify the objects we need
 addOrderForm.addEventListener("submit", function (e) {

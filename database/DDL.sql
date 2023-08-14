@@ -142,19 +142,28 @@ JOIN (
 
 -- Define the trigger
 DELIMITER //
+
 CREATE TRIGGER validateUniqueEmail
 BEFORE INSERT ON Customers
 FOR EACH ROW
 BEGIN
-    IF EXISTS (
+    DECLARE emailPattern VARCHAR(255);
+    SET emailPattern = '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$';
+    
+    IF NEW.emailAddress NOT REGEXP emailPattern THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Email address must be in a valid format';
+    ELSEIF EXISTS (
         SELECT 1
         FROM Customers
         WHERE emailAddress = NEW.emailAddress
     ) THEN
-        SIGNAL SQLSTATE '45000'
+        SIGNAL SQLSTATE '43000'
         SET MESSAGE_TEXT = 'Email address must be unique';
     END IF;
 END;//
+
 DELIMITER ;
+
 
 

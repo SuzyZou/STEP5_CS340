@@ -12,6 +12,36 @@
         </ul>
     </nav>
 <body>
+
+     <script language="JavaScript">
+        function showform(dowhat) {
+            /*
+            * four DIVS: browse, insert, update, delete
+            * this function sets one visible the others not
+            */
+            if (dowhat == 'insert'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+        
+            }
+            else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+           
+            }
+            else { //by default display browse
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+   
+            }
+        }
+        function newPerson() { showform('insert'); }
+        function browsePeople() { showform ('browse'); }
+        function showAll() { showform ('all'); }
+    </script> 
+
+
+
 </head>
 
  <div class="button-container">
@@ -68,5 +98,6 @@
      <input class="btn" type="button" value="cancel" onClick="browsePeople()">
 </form>
 </div>
+
 
 <script src ="./js/addCategories.js">  </script> 

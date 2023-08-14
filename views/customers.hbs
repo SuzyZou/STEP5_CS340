@@ -13,13 +13,65 @@
 
     </nav>
 <body>
+  <script language="JavaScript">
+
+
+  function showform(dowhat) {
+    /*
+    * four DIVS: browse, insert, update, delete
+    * this function sets one visible the others not
+    */
+    if (dowhat == 'insert'){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'block';
+      document.getElementById('delete').style.display = 'none';
+    }
+    else if (dowhat == "search"){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('search').style.display = 'block';
+      document.getElementById('delete').style.display = 'none';
+    }
+    else if (dowhat == 'update'){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('delete').style.display = 'none';
+    }
+    else if (dowhat == 'delete'){
+      document.getElementById('browse').style.display = 'none';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('delete').style.display = 'block';
+    }
+    else if (dowhat == 'all'){
+      document.getElementById('browse').style.display = 'block';
+      document.getElementById('insert').style.display = 'block';
+       document.getElementById('search').style.display = "block";
+      document.getElementById('delete').style.display = 'block';
+    }
+    else { //by default display browse
+      document.getElementById('browse').style.display = 'block';
+      document.getElementById('insert').style.display = 'none';
+      document.getElementById('search').style.display = "none";
+      document.getElementById('delete').style.display = 'none';
+    }
+  }
+  function newPerson() { showform('insert'); }
+  function searchCustomer() { showform('search'); }
+  function deletePerson(pid) { showform ('delete'); }
+  function browsePeople() { showform ('browse'); }
+  function showAll() { showform ('all'); }
+</script>
+
+
+
+  
 </head>
   
   {{!-- buttons on the top of page--}}
   <div id ="browse">
-    <td><a href="#" onClick="newPerson()">Add</a></td>
-    <td><a href="#" onClick="searchCustomer()">Search</a></td>
-    <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <a href="#" onClick="newPerson()">Add</a>
+    <a href="#" onClick="searchCustomer()">Search</a>
+   <a href="#" onclick="deletePerson('this.personID')">Delete</a>
   </div>
         
 <table id= "browse"> 
@@ -49,7 +101,6 @@
             <td>{{this.emailAddress}}</td>
             <td>{{this.address}}</td>
             <td>{{this.city}}</td>
-           
         </tr>
         {{/each}}
     </tbody>
@@ -93,9 +144,9 @@
 </form>
 </div>
 
- {{!-- <div class="button-container">
+ <div class="button-container">
     <a href="#" id="displayAllForms" onClick="showAll()" class="circular-button">All Forms</a>
-  </div> --}}
+  </div>
 
 
 
@@ -119,7 +170,7 @@
 </div>
 
 
-{{!-- Updata A Customer --}}
+{{!-- Updata A Customer
 <div id="update">
   <form method="POST" id="addPlanet">
       <legend><strong>Update Customer</strong></legend>
@@ -141,7 +192,7 @@
         <input class="btn" type="submit" id="addPerson" value="Update">
         <input class="btn" type="button" value="cancel" onClick="browsePeople()">
 </form> 
-</div><!-- insert -->
+</div><!-- insert --> --}}
 
 
 <script src ="./js/addCustomer.js">  </script> 

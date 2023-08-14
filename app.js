@@ -20,6 +20,7 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 // Static Files
 // app.use(express.static('public'));
 app.use(express.static(__dirname + '/public')); 
+app.use(express.static(__dirname + '/js'));
 
 
 /*====================ROUTES===========================*/
@@ -98,6 +99,26 @@ app.post("/deleteOrder",function(req,res){
 })
 
 
+// delete an item
+app.post("/deleteItem",function(req,res){
+    let deleteItemVal = req.body
+    let data = deleteItemVal['input-item']
+    console.log("deleteItemVal",deleteItemVal)
+    if (data === undefined){
+         queryDeleteItem = `SELECT 
+        * FROM Items;`
+    }else{
+         queryDeleteItem = `DELETE 
+                       FROM Items
+                       WHERE itemID = ${data};`
+     }
+     //Run query
+     db.pool.query(queryDeleteItem, function(error, rows, fields){
+        // Save the customer
+        return res.redirect('/items')
+    })
+
+})
 
 
 
@@ -133,8 +154,7 @@ app.get('/', function(req, res)
     })
 
 });
-
-    
+  
 
 //POST ROUTES
 app.post('/add-person-form', function(req, res){
@@ -147,23 +167,69 @@ app.post('/add-person-form', function(req, res){
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
-        if (error) {
+        if (error && error.sqlState === '45000'){
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error)
             res.status(404).render('error', {
                 page: req.url,
-                errorContent:"We're sorry for the inconvenience caused by our system's limitation on using the same email address twice. Your understanding is appreciated as we work to improve our services. "
+                errorContent:"Invalid email address format. Please provide a valid email address in the format user@example.com"
             });
         }
-
-        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
-        // presents it on the screen
-        else
+        else if (error && error.sqlState === '43000'){
+            console.log(error)
+            res.status(45000).render('error', {
+                page: req.url,
+                errorContent:"Email address already exists. Please provide a unique email address."
+            });
+        }else
         {
             res.redirect('/');
         }
     })
 })
+
+app.post('/update-order-form', function(req,res,next){
+    let data = req.body;
+    console.log("data in update order from", data)
+    let OrderIDVal = data["input-orderID"];
+    let CustomerIDVal= data["input-customerID"];
+    let orderDateVal = data['input-orderDate'];
+    let creditCarNumbVal = data['input-creditCardNumb'];
+    let creditCardExpDateVal = data['input-creditCardExpDate'];
+    let numbOrderedItemVal = data['input-numOrderedItems'];
+    let pricePaidVal = data['input-pricePaid'];
+    
+    let queryUpdateOrder = `UPDATE Orders 
+                            SET orderDate = "${orderDateVal}",
+                            creditCardNumb = "${creditCarNumbVal}", 
+                            creditCardExpDate = "${creditCardExpDateVal}", 
+                            numOrderedItems= "${numbOrderedItemVal}",
+                            pricePaid = "${pricePaidVal}"
+                            WHERE orderID = ${OrderIDVal} AND customerID = ${CustomerIDVal}`;
+    
+          // Run the 1st query
+    db.pool.query(queryUpdateOrder, function(error, rows, fields){
+        if (error) {
+
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        }
+
+        // If there was no error, we run our second query and return that data so we can use it to update the people's
+        // table on the front-end
+        else
+        {    
+            res.redirect('orders');       
+        }
+    })
+
+});
+
+
+
+
+
 
 
 //POST ROUTES
@@ -212,7 +278,7 @@ app.post('/add-item-form',function(req,res){
              });
          }
          else{
-            res.redirect('/items',);
+            res.redirect('/items');
          }
      })
 
@@ -228,14 +294,13 @@ app.post('/add-review-form',function(req,res){
      db.pool.query(inserItems, function(error, rows, fields){
          // Check to see if there was an error
          if (error) {
-             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
              console.log(error)
              res.status(404).render('error', {
                  page: req.url,
              });
          }
          else{
-            res.redirect('/reviews',);
+            res.redirect('/reviews');
          }
      })
 
@@ -246,21 +311,59 @@ app.post('/add-review-form',function(req,res){
 app.post('/add-category-form',function(req,res){
     let data = req.body;
     console.log ("data recevied in the add category form: ",data)
-    let categoryQuery = `INSERT INTO Categories(categoryName) VALUES('${data['input-category-name']}')`;
+    categoryQuery = `INSERT INTO Categories(categoryName) VALUES('${data.categoryName}')`;
     db.pool.query(categoryQuery, function(error, rows, fields){
         // Check to see if there was an error
         if (error){
             console.log(error)
             res.status(404).render('error', {
-                page: req.url,
+                errorTitle: "opps! page cant be found" 
             });
         }else{
-           res.redirect('/categories',);
+           res.redirect('/categories');
         }
           
      });
 
 });
+
+app.post('/update-item', function(req,res,next){
+    let data = req.body;
+    console.log("data in update order from", data)
+    let itemIDVal = data["update-itemID"];
+    let reviewIDVal= data["update-reviewID"];
+    let categoryIDVal = data['update-categoryID'];
+    let itemNameVal = data['input-item-name'];
+    let priceVal = data['input-price'];
+    
+    let queryUpdateItem = `UPDATE Items 
+                            SET itemName = "${itemNameVal}",
+                            price = "${priceVal}"
+                            WHERE itemID = ${itemIDVal } AND reviewID = ${reviewIDVal} AND categoryID = ${categoryIDVal}`;
+    
+          // Run the 1st query
+    db.pool.query(queryUpdateItem, function(error, rows, fields){
+        if (error) {
+
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        }
+
+        // If there was no error, we run our second query and return that data so we can use it to update the people's
+        // table on the front-end
+        else
+        {    
+            res.redirect('items');       
+        }
+    })
+
+});
+
+
+
+
+
 
 
 app.get('/customers',function(req,res){
@@ -274,6 +377,7 @@ app.get('/customers',function(req,res){
     })
      
  });
+
 
  app.get('/orders',function(req,res){
    
@@ -289,7 +393,7 @@ app.get('/customers',function(req,res){
             res.render(
                 'orders',{orders:orders,
                 customers:customer}
-                );     
+             );     
         })
        
     })
@@ -323,6 +427,7 @@ app.get('/customers',function(req,res){
      
  });
 
+
  app.get('/categories',function(req,res){
    
     query4 = "SELECT * FROM Categories;";
@@ -334,6 +439,7 @@ app.get('/customers',function(req,res){
     })
      
  });
+
 
  app.get('/reviews',function(req,res){
    
@@ -361,7 +467,6 @@ app.get('/customers',function(req,res){
     });  
     
  });
-
 
 
 /*=============================LISTENER=========================*/

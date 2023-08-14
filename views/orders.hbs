@@ -12,6 +12,51 @@
             </ul>
         </nav>
     </body>
+    <script language="JavaScript">
+        function showform(dowhat) {
+            /*
+            * four DIVS: browse, insert, update, delete
+            * this function sets one visible the others not
+            */
+            if (dowhat == 'insert'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+            }
+            else if (dowhat == 'update'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+            }
+            else if (dowhat == 'delete'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+            }
+            else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+            }
+            else { //by default display browse
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+            }
+        }
+        function newPerson() { showform('insert'); }
+        function updatePerson(pid) { showform('update'); }
+        function deletePerson(pid) { showform ('delete'); }
+        function browsePeople() { showform ('browse'); }
+        function showAll() { showform ('all'); }
+    </script> 
+
+    
     
 </head>
 
@@ -24,6 +69,7 @@
     <td><a href="#" onClick="newPerson()">Add</a></td>
     {{!-- <td><a href="#" onClick="searchCustomer()">Search</a></td> --}}
     <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td>   
   </div>
 
 
@@ -54,7 +100,6 @@
             <td>{{this.creditCardExpDate}}</td>
             <td>{{this.numOrderedItems}}</td>
             <td>{{this.pricePaid}}</td> 
-            <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td>   
         </tr>
         {{/each}}
     </tbody>
@@ -65,20 +110,21 @@
 
 
 <!--Search An Order -->
-<div id="search"   style="display: block" >           
+{{!-- <div id="search"   style="display: block" >           
   <form method="POST" id="searchOrder" action = "/searchOrder">
       <legend><strong>Search An Order</strong></legend>
         <label><strong>OrderID:</strong> </label>
            <select name="delete-customer" id="delete-customer">
+             <option value="test">Select a customer</option>
             {{#each data}}
-            <a href="/deleteCustomer/{{this.customerID}}"><option value="{{this.customerID}}">{{this.customerID}}</option></a>
+           <option value="{{this.customerID}}">{{this.customerID}}</option>
             {{/each}}
         </select>
           </label>     
          <input class="btn" type="submit" id="addPerson" value="Search">
         <input class="btn" type="button" value="cancel" onClick="browsePeople()">
   </form> 
-</div>
+</div> --}}
 
 
 <!--insert  An Order -->
@@ -87,6 +133,7 @@
     <legend><strong>ADD An Order </strong></legend>
         <label><strong>CustomerID:</strong> </label>
            <select name="input-customerID" id="input-customerID">
+             <option value="test">Select a customer</option>
                 {{#each customers}}
                 <option value="{{this.customerID}}"> {{this.firstName}} {{this.lastName}}({{this.customerID}})</option>
                 {{/each}} 
@@ -117,46 +164,45 @@
 
 
 {{!-- Updata An Order --}}
-<div id="update">
-  <form method="POST" id="addPlanet">
-      <legend><strong>Update An Order</strong></legend>
-        <fieldset class="fields"> 
-         <label><strong>OrderID:</strong> </label>
-            <select name="delete-customer" id="delete-customer">
-                {{#each data}}
-                <a href="/deleteCustomer/{{this.orderID}}"><option value="{{this.orderID}}">{{this.orderID}}</option></a>
-                {{/each}}
-            </select>
-        </label>     
-          <!--inserting  An Order -->
-
+<form id="update" method="POST" action="/update-order-form">
+<fieldset class="fields" id = "update-form">
+     <legend><strong>Update An Order </strong></legend>
+        <label><strong>orderID:</strong> </label>
+           <select name="input-orderID" id="input-orderID">
+             <option value="test">Select a customer</option>
+                {{#each orders}}
+                <option value="{{this.orderID}}"> {{this.orderID}}</option>
+                {{/each}} 
+           </select>
+        </label>    
         <label><strong>CustomerID:</strong> </label>
-            <select name="delete-customer" id="delete-customer">
-                {{#each data}}
-                <a href="/deleteCustomer/{{this.customerID}}"><option value="{{this.customerID}}">{{this.customerID}}</option></a>
-                {{/each}}
-            </select>
+           <select name="input-customerID" id="input-customerID">
+             <option value="test">Select a customer</option>
+                {{#each orders}}
+                <option value="{{this.customerID}}">({{this.customerID}})</option>
+                {{/each}} 
+           </select>
         </label>    
         
-    <label for="input-lname">order date: </label>
-    <input type="date" name="input-lname" id="input-lname">
+    <label for="input-orderDate">order date: </label>
+    <input type="date" name="input-orderDate" id="input-orderDate">
 
-    <label for="input-address">creditCardNumb: </label>
-    <input type="text" name="input-address" id="input-address">
+    <label for="input-creditCardNumb">creditCardNumb: </label>
+    <input type="text" name="input-creditCardNumb" id="input-acreditCardNumb">
 
-    <label for="input-city">creditCardExpDate: </label>
-    <input type="date" name="input-city" id="input-city">
+    <label for="input-creditCardExpDate:">creditCardExpDate: </label>
+    <input type="date" name="input-creditCardExpDate" id="input-creditCardExpDate">
      
-    <label for="input-city">numOrderedItems: </label>
-    <input type="text" name="input-city" id="input-city">
+    <label for="input-numOrderedItems">numOrderedItems: </label>
+    <input type="text" name="input-numOrderedItems" id="input-numOrderedItems">
 
-     <label for="input-city">pricePaid: </label>
-    <input type="text" name="input-city" id="input-city">
+     <label for="input-pricePaid">pricePaid: </label>
+    <input type="text" name="input-pricePaid" id="input-pricePaid">
 
-    </fieldset>
-        <input class="btn" type="submit" id="addPerson" value="Update">
-        <input class="btn" type="button" value="cancel" onClick="browsePeople()">
-</form> 
+   </fieldset>
+    <input class="btn" type="submit" id="addPerson" value="Update">
+     <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+</form>
 </div>
 
 <!--Deleting An Order -->
@@ -178,5 +224,5 @@
   </form> 
 </div>
 
-
 <script src ="./js/addOrder.js">  </script> 
+<script src="./js/updateOrder.js"></script>

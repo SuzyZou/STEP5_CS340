@@ -1,27 +1,11 @@
 *{
     margin: 0;
     padding:0;
-    font-family: 'Tektur', cursive;
-}
-
-h1{
-  text-align: center;
-  align-items: center;
-  background-color: #303F61;
-  padding: 10px;
-}
-
-h1 {
-  color: #EBEDF0;
-  margin: 0;
-  padding: 25px;
-  font-family: 'Tektur', cursive;
-  font-style: italic;
-  font-size: 50px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 i{
-    color: #c9d2e9;
+    color: #353638;
 }
 
 a{
@@ -51,12 +35,21 @@ a{
  
   
   .navbar{
-    background-color:   #94A4B4;
+    background-color:rgba(57, 53, 53, 0.828);
     width: 100%;
-    height: 36px;
-    font-size: 15px;
-    font-family: 'Tektur', cursive;
+    height: 60px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  
+  .navbar a:hover {
+    width: 100%;
+    height: 60px;
+    background-color: #ddd;
+    color: black;
   }
   
   .navlist {
@@ -92,11 +85,12 @@ a{
 }
 .photo-container{
     margin-top: 10px;
+    margin-left: 15px;
     border-style:solid;
     border-color: #303F61;
-    border-width: 5px;
-    width: 440px;
-    height: 500px;
+    border-width: 1px;
+    width: 480px;
+    height: 530px;
 }
 nav li ul a{
     padding-top: 10px;
@@ -126,23 +120,24 @@ nav ul li ul{
 }
 
 .college1{
-    font-size: 50px;
-    font-weight: 900;
-    color: rgba(230, 78, 8, 0.935);
+    font-size: 40px;
+    font-weight: 700;
+    color:#504F50;
     position: relative;
     right: 20px;
 }
 
 .college2{
-  font-size: 50px;
-  font-weight: 900;
+  font-size: 40px;
+  font-weight:700;
   right: 50px;
+  color:  #8C746C;
   position: relative;
 }
 
 
 footer {
-  background-color:  #94A4B4;
+  background-color:rgba(57, 53, 53, 0.828);
   color:#EBEDF0;
   text-align: center;
   padding: 10px;
@@ -161,7 +156,7 @@ img.OSU_symbol{
   position: relative;
   top: 70px;
   right: 40px;
-  font-family: 'Tektur', cursive;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .button{
 border: none;

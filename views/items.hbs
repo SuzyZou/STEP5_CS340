@@ -12,6 +12,52 @@
         </ul>
     </nav>
 <body>
+
+
+      <script language="JavaScript">
+        function showform(dowhat) {
+            /*
+            * four DIVS: browse, insert, update, delete
+            * this function sets one visible the others not
+            */
+            if (dowhat == 'insert'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+            }
+            else if (dowhat == 'update'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+            }
+            else if (dowhat == 'delete'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+            }
+            else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+            }
+            else { //by default display browse
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+            }
+        }
+        function newPerson() { showform('insert'); }
+        function updatePerson(pid) { showform('update'); }
+        function deletePerson(pid) { showform ('delete'); }
+        function browsePeople() { showform ('browse'); }
+        function showAll() { showform ('all'); }
+    </script> 
+
 </head>
 
  {{!-- buttons on the top of the page --}}
@@ -61,7 +107,7 @@
 
 
 <!--Searching A customer -->
-<div id="search"   style="display: block" >           
+{{!-- <div id="search"   style="display: block" >           
   <form method="POST" id="searchCustomer" action = "/searchCustomer">
       <legend><strong>Search A Customer</strong></legend>
         <fieldset class="fields" id="addperson">
@@ -70,7 +116,7 @@
          <input class="btn" type="submit" id="addPerson" value="Search Customer">
         <input class="btn" type="button" value="cancel" onClick="browsePeople()">
   </form> 
-</div>
+</div> --}}
 
 
 
@@ -109,20 +155,29 @@
 <!--Update An Item -->
 <form id="update" method="POST" action="/update-item">
 <fieldset class="fields">
-
     <legend><strong>Update An Item </strong></legend>
+         <label><strong>itemID:</strong> </label>
+           <select name="update-itemID" id="update-itemID">
+            <option value="test">Select an item</option>
+                {{#each Items}}
+                <option value="{{this.itemID}}">{{this.itemID}}</option>
+                {{/each}}
+           </select>
+       
         <label><strong>reviewID:</strong> </label>
-           <select name="add-reviewID" id="add-reviewID">
-                {{#each data}}
-                <a href="/addAnItem/{{this.reviewID}}"><option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
+           <select name="update-reviewID" id="update-reviewID">
+            <option value="test">Select reviewID</option>
+                {{#each Items}}
+               <option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
                 {{/each}}
            </select>
         </label>    
     
         <label><strong>categoryID:</strong> </label>
-           <select name="add-categoryID" id="add-categoryID">
-                {{#each data}}
-                <a href="/addAnItem/{{this.categoryID}}"><option value="{{this.categoryID}}">{{this.categoryID}}</option></a>
+           <select name="update-categoryID" id="update-categoryID">
+            <option value="test">Select categoryID</option>
+                {{#each Items}}
+             <option value="{{this.categoryID}}">{{this.categoryID}}</option>
                 {{/each}}
            </select>
 
@@ -133,7 +188,7 @@
     <input type="text" name="input-price" id="input-price">
 
    </fieldset>
-    <input class="btn" type="submit" id="addPerson" value="Add">
+    <input class="btn" type="submit" id="addPerson" value="Update">
      <input class="btn" type="button" value="cancel" onClick="browsePeople()">
 </form>
 </div>
@@ -141,14 +196,14 @@
 
 {{!-- Delete an item --}}
 <div id="delete" style="display: block">
-  <form method="POST" id="deleteCustomer" action="/deleteCustomer">
+  <form method="POST" id="deleteItem" action="/deleteItem">
       <legend><strong>Delete An item </strong></legend>
           <fieldset class="fields">
           <p>Are you sure you wish to delete the following?</p>
-          <label><strong>itemID:</strong> </label>
-           <select name="delete-customer" id="delete-customer">
-                {{#each data}}
-                <a href="/deleteCustomer/{{this.itemID}}"><option value="{{this.itemID}}">{{this.itemID}}</option></a>
+          <label><strong>itemID:</strong></label>
+           <select name="input-item" id="input-item">
+                {{#each Items}}
+                <option value="{{this.itemID}}">{{this.itemName}}({{this.itemID}})</option>
                 {{/each}}
            </select>
         </label>     
