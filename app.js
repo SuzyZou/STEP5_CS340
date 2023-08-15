@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-PORT = 9023;
+PORT = 9053;
 // Database
 var db = require('./database/db-connector');
 
@@ -18,9 +18,13 @@ app.engine('.hbs', engine({
 }));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters an *.hbs file.
 // Static Files
-// app.use(express.static('public'));
+
 app.use(express.static(__dirname + '/public')); 
 app.use(express.static(__dirname + '/js'));
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/public/home.html');
+  });
+
 
 
 /*====================ROUTES===========================*/
@@ -73,7 +77,7 @@ app.post("/deleteCustomer",function(req,res){
      //Run query
      db.pool.query(query1, function(error, rows, fields){
         // Save the customer
-        return res.redirect('/')
+        return res.redirect('customers')
     })
 
 })
@@ -122,38 +126,7 @@ app.post("/deleteItem",function(req,res){
 
 
 
-// GET ROUTES
-app.get('/', function(req, res)
-{
-    // Declare Query 1
 
-    let query1;
-     
-    // If there is no query string, we just perform a basic SELECT
-    // console.log("The requsted last Name is",req.query.lastName)
-    if (req.query.lastName === undefined)
-    {
-
-        query1 = "SELECT * FROM Customers;";
-    }
-
-    // If there is a query string, we assume this is a search, and return desired results
-    else
-    {
-        query1 = `SELECT * FROM Customers WHERE lastName LIKE "${req.query.lastName}%"`
-    }
-
-    // Run the 1st query
-    db.pool.query(query1, function(error, rows, fields){
-        
-        // Save the customer
-        let customer = rows;
-        // console.log("customers in the Database:",customer)
-        return res.render('customers', {data: customer});
-
-    })
-
-});
   
 
 //POST ROUTES
@@ -177,7 +150,7 @@ app.post('/add-person-form', function(req, res){
         }
         else if (error && error.sqlState === '43000'){
             console.log(error)
-            res.status(45000).render('error', {
+            res.status(404).render('error', {
                 page: req.url,
                 errorContent:"Email address already exists. Please provide a unique email address."
             });
@@ -459,7 +432,7 @@ app.get('/customers',function(req,res){
  });
 
 
- app.get('/home',function(req,res){
+ app.get('/',function(req,res){
    
     res.render('home',{title: "Home Page",
         path:"./public/img/OSU_symbol.jpeg"

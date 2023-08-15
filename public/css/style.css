@@ -20,7 +20,10 @@ h1{
   top: 0px;
 }
 
-
+h2{
+  color: red;
+  align-items: center;
+}
 
 /* Table styles */
 table {
@@ -218,7 +221,7 @@ fieldset.fields {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: 'Tektur', cursive;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .btn.cancel {
@@ -415,5 +418,37 @@ li{
 input{
   padding: 5px;
 }
+
+
+
+/* eror: */
+
+/* Style the error page container */
+.error-page {
+  width: 100%;
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: #a69595;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Style the error title */
+.error-page h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #e50c0c;
+}
+
+/* Style the error message */
+.error-page p {
+  font-size: 18px;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+
 
 

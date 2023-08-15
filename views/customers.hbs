@@ -3,7 +3,7 @@
 <body onload="browsePeople()">
     <nav class="navbar">
         <ul class = "navlist">
-            <li class = "home"><a href="/home">Home</a> </li>
+            <li class = "home"><a href="/">Home</a> </li>
             <li class = "add_item_link"><a href="/">Customers</a></li>
             <li class = "add_order_link"><a href = "/orders">Orders</a></li>
             <li class = "add_order_link"><a href = "/items">Items</a></li> 
@@ -42,12 +42,7 @@
       document.getElementById('insert').style.display = 'none';
       document.getElementById('delete').style.display = 'block';
     }
-    else if (dowhat == 'all'){
-      document.getElementById('browse').style.display = 'block';
-      document.getElementById('insert').style.display = 'block';
-       document.getElementById('search').style.display = "block";
-      document.getElementById('delete').style.display = 'block';
-    }
+
     else { //by default display browse
       document.getElementById('browse').style.display = 'block';
       document.getElementById('insert').style.display = 'none';
@@ -59,7 +54,6 @@
   function searchCustomer() { showform('search'); }
   function deletePerson(pid) { showform ('delete'); }
   function browsePeople() { showform ('browse'); }
-  function showAll() { showform ('all'); }
 </script>
 
 
@@ -144,9 +138,6 @@
 </form>
 </div>
 
- <div class="button-container">
-    <a href="#" id="displayAllForms" onClick="showAll()" class="circular-button">All Forms</a>
-  </div>
 
 
 
