@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-PORT = 9053;
+PORT = 9000;
 // Database
 var db = require('./database/db-connector');
 
@@ -28,6 +28,34 @@ app.get('/', function(req, res){
 
 
 /*====================ROUTES===========================*/
+app.get('/orderItems', function(req, res) {
+    db.pool.query('SELECT * FROM ordersItems', function(err, rows) {
+        if (err) {
+          console.error(err);
+          return res.sendStatus(500);
+        }
+
+        console.log(rows)
+        
+        res.render('orderItems', { rows });
+      });
+  });
+
+  
+  app.post('/filterOrdersItems', function(req, res) {
+    let text = req.body.filterBy;
+    console.log(text)
+    query = `SELECT * from ordersItems where itemID =${text};`
+    db.pool.query(query, function(err, rows) {
+      if (err) {
+        console.error(err);
+        return res.sendStatus(500);
+      }
+  
+      return res.render('orderItems', {rows});
+    });
+  
+  });
 app.post('/searchCustomer', function(req, res)
 {
     // Declare Query 1

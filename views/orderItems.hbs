@@ -1,5 +1,5 @@
 <head>
-  <h1>Categories</h1>
+  <h1>orderItems</h1>
 <body onload="browsePeople()">
     <nav class="navbar">
         <ul class = "navlist">
@@ -10,12 +10,11 @@
             <li class = "add_order_link"><a href = "/reviews">Reviews</a></li>
             <li class = "add_order_link"><a href = "/categories">Categories</a></li>
             <li class = "add_order_link"><a href = "/orderItems">orderItems</a></li>
-
         </ul>
     </nav>
 <body>
 
-     <script language="JavaScript">
+    <script language="JavaScript">
         function showform(dowhat) {
             /*
             * four DIVS: browse, insert, update, delete
@@ -26,6 +25,11 @@
             document.getElementById('insert').style.display = 'block';
         
             }
+            else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+           
+            }
             else { //by default display browse
             document.getElementById('browse').style.display = 'block';
             document.getElementById('insert').style.display = 'none';
@@ -34,62 +38,35 @@
         }
         function newPerson() { showform('insert'); }
         function browsePeople() { showform ('browse'); }
-    
+        function showAll() { showform ('all'); }
     </script> 
-
-
 </head>
-
- <div id ="browse">
-    <td><a href="#" onClick="newPerson()">Add</a></td>
-</div>
-
-
-
-
-<table id= "browse"> 
-    {{!-- Header section --}}
-    <thead >
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-    
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-
-    {{!-- Body section --}}
-    <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr>
-    
-            <td>{{this.categoryID}}</td>
-            <td>{{this.categoryName}}</td>  
-        </tr>
-        {{/each}}
-    </tbody>
+<form id="filterForm" action="/filterOrdersItems" method="post">
+  <label for="filterBy">Filter By itemID:</label>
+  <select id="filterBy" name="filterBy">
+     {{#each rows}}
+        <option value = "{{this.itemID}}">{{this.itemID}}</option>
+      {{/each}}    
+  </select>
+  <button type="submit">Apply Filter</button>
+</form>
+<table>
+  <thead>
+    <tr>
+      <th>orderID</th>
+      <th>itemID</th>
+      <th>totalNumItems</th>
+=    </tr>
+  </thead>
+  <tbody>
+    {{#each rows}}
+    <tr>
+      <td>{{this.orderID}}</td>
+      <td>{{this.itemID}}</td>
+      <td>{{this.totalNumItems}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
 </table>
 
-
-<!--insert A Category-->
-<div id="insert">
-<form id="add-category-form" method="POST" action="/add-category-form">
-<fieldset class="fields">
-
-    <label for="input-category-name">categoryName: </label>
-    <input type="text" name="input-category-name" id="input-category-name">
-
-   </fieldset>
-    <input class="btn" type="submit" id="addPerson" value="Add">
-     <input class="btn" type="button" value="cancel" onClick="browsePeople()">
-</form>
-</div>
-
-
-<script src ="./js/addCategories.js">  </script> 
+</html>
