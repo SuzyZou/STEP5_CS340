@@ -108,5 +108,17 @@
 </form>
 </div>
 
+<form id="filterForm" action="/filterReviews" method="post">
+  <label for="filterBy">Review Filter:</label>
+  <select id="filterBy" name="filterBy">
+    <option value="1.0">1 Star and Up</option>
+    <option value="2.0">2 Star and Up</option>
+    <option value="3.0">3 Star and Up</option>
+    <option value="4.0">4 Star and Up</option>
+    <option value="5.0">5 Star and Up</option>
+  </select>
+  <button type="submit">Apply Filter</button>
+</form>
+
 
 <script src ="./js/addReviews.js">  </script> 

@@ -257,6 +257,23 @@ app.post('/add-item-form',function(req,res){
 
 
 })
+app.post('/filterReviews', function(req, res){
+    let data = parseFloat(req.body.filterBy)
+
+    queryReview = `SELECT * FROM Reviews WHERE overallRating >=${data};`
+    queryCustomer = "SELECT * FROM Customers;"
+    db.pool.query( queryReview, function(error, reviewRows, fields){
+        
+        db.pool.query(queryCustomer , function(error, customerRows, fields){
+            
+            res.render('reviews', {Reviews:reviewRows,
+                Customers: customerRows
+            }); 
+        })
+         
+    })
+
+});
 
 // POST ROUTE
 app.post('/add-review-form',function(req,res){
