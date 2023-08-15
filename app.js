@@ -277,25 +277,38 @@ app.post('/filterReviews', function(req, res){
 
 // POST ROUTE
 app.post('/add-review-form',function(req,res){
-    let data = req.body;
-     console.log("recived data from  add-review-from form:",data)
-     // Create the query and run it on the database
-     inserItems = `INSERT INTO Reviews (customerID, overallRating, feedback) VALUES('${data['input-customerID']}', '${data['input-overall-rating']}', '${data['input-feedback']}')`;
-     db.pool.query(inserItems, function(error, rows, fields){
-         // Check to see if there was an error
-         if (error) {
-             console.log(error)
-             res.status(404).render('error', {
-                 page: req.url,
-             });
-         }
-         else{
-            res.redirect('/reviews');
-         }
-     })
-
-
-})
+    let rating = req.body.overallRating;
+    let text = req.body.feedbackText;
+    let id = req.body.CustomerID;
+  
+    // Get values for other columns
+  
+    checkCustomerID = `SELECT COUNT(*) as COUNT from Customers where customerID = ${id};`;
+  
+    db.pool.query(checkCustomerID, function(err, result) {
+      if (err) {
+        console.error(err);
+        return res.sendStatus(500);
+      }
+  
+      if (result[0].count === 0) {
+        return res.status(400).json({ error: 'Customer does not exist' });
+      }
+  
+      // Construct SQL query to insert a new row
+      query = `INSERT INTO Reviews (overallRating, feedback, customerID)
+               VALUES (${rating}, "${text}", "${id}");`;
+               
+      db.pool.query(query, function(err, rows) {
+        if (err) {
+          console.error(err);
+          return res.sendStatus(500);
+        }
+  
+        return res.redirect('/reviews');
+      });
+    });
+});
 
 
 app.post('/add-category-form',function(req,res){

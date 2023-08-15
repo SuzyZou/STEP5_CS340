@@ -85,27 +85,25 @@
 
   <!--insert a review-->
 <div id = "insert">
-<form id="add-review-form" method="POST" action="/add-review-form">
-<fieldset class="fields">
-    <legend><strong>ADD A Review </strong></legend>
-       <label><strong>CustomerID:</strong> </label>
-           <select name="input-customerID" id="input-customerID">
-                {{#each Customers}}
-                <option value="{{this.customerID}}"> {{this.firstName}} {{this.lastName}}({{this.customerID}})</option>
-                {{/each}} 
-           </select>
-        </label>      
 
-    <label for="input-overall-rating">overallRating: </label>
-    <input type="text" name="input-overall-rating" id="input-overall-rating">
+<form id="addReviewForm" action="/add-review-form" method="post">
+  <label for="overallRating">Rating: </label>
+  <select id="overallRating" name="overallRating">
+    <option value="1.0">1 Star</option>
+    <option value="2.0">2 Star</option>
+    <option value="3.0">3 Star</option>
+    <option value="4.0">4 Star</option>
+    <option value="5.0">5 Star</option>
+  </select>
 
-     <label for="input-feedback">feedback: </label>
-    <input type="text" name="input-feedback" id="input-feedback">
+    <label for="feedbackText">Feedback </label>
+  <input type="text" id="feedbackText" name="feedbackText">
 
-   </fieldset>
-    <input class="btn" type="submit" id="addPerson" value="Add">
-     <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+   <label for="CustomerID">CustomerID </label>
+  <input type="text" id="CustomerID" name="CustomerID">
+  <button type="submit">Add Review</button>
 </form>
+
 </div>
 
 <form id="filterForm" action="/filterReviews" method="post">
