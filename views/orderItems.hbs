@@ -40,15 +40,7 @@
         function showAll() { showform ('all'); }
     </script> 
 </head>
-<form id="filterForm" action="/filterOrdersItems" method="post">
-  <label for="filterBy">Filter By itemID:</label>
-  <select id="filterBy" name="filterBy">
-     {{#each rows}}
-        <option value = "{{this.itemID}}">{{this.itemID}}</option>
-      {{/each}}    
-  </select>
-  <button type="submit">Apply Filter</button>
-</form>
+
 <table>
   <thead>
     <tr>
