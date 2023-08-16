@@ -6,41 +6,41 @@
 
 -- *************************************************************************
 --                      Select Statements
+--         for displying and searching/filtering
 -- ************************************************************************
 
--- =========Seletc Statements for displaying sample data on different pages
-SELECT *
-FROM Customers;
-
-SELECT *
-FROM Categories 
-WHERE;
-
-SELECT *
-FROM Items 
-WHERE;
-
+-- Displying data from database
+SELECT * FROM Customers;
 SELECT orderID, customerID, DATE_FORMAT(orderDate, '%b %e, %Y') as orderDate, creditCardNumb, DATE_FORMAT(creditCardExpDate, '%b %e, %Y') as creditCardExpDate, numOrderedItems, pricePaid 
 FROM Orders;
 
-SELECT * 
-FROM Reviews;
+SELECT * FROM Items;
 
--- Select for the Dinamically search on the Customers page 
-SELECT * 
-FROM Customers 
-WHERE lastName LIKE ${req.query.lastName}%;
+SELECT * FROM ordersItems;
+
+SELECT * FROM Categories; 
+
+SELECT * FROM Reviews;
+
+
+-- For filterling stars level on the Reviews page
+SELECT * FROM Reviews WHERE overallRating >=${data};
+SELECT * FROM ordersItems where itemID =${text};
+SELECT COUNT(*) as COUNT from Customers where customerID = ${id}
+
+-- Select for the Dinamically search by last name on the Customers page 
+SELECT * FROM Customers WHERE lastName LIKE ${req.query.lastName}%;
+SELECT * FROM Customers WHERE lastName LIKE "${userInput}%"
 
 
 -- *************************************************************************
 --                      Insert Statements
+--                5 Insert statements to add new thing on each page
 -- ************************************************************************
 INSERT INTO Customers (firstName, lastName, emailAddress, address,city) 
 VALUES ('${data['input-fname']}', '${data['input-lname']}', '${data['input-emailAdresses']}','${data['input-address']}', '${data['input-city']}');
 
-INSERT INTO Categories(categoryName)
-VALUES
-(:categoryName_input);
+INSERT INTO Categories(categoryName) VALUES('${data.categoryName}';
 
 INSERT INTO Items (reviewID, categoryID, itemName, price) 
 VALUES ('${data['input-reviewID']}', '${data['input-categoryID']}', '${data['input-item-name']}','${data['input-price']}');
@@ -48,47 +48,34 @@ VALUES ('${data['input-reviewID']}', '${data['input-categoryID']}', '${data['inp
  INSERT INTO Orders (customerID, orderDate, creditCardNumb, creditCardExpDate,numOrderedItems,pricePaid) 
  VALUES ('${data['input-orderID']}', '${data['input-orderDate']}', '${data['input-creditCardNumb']}','${data['input-creditCardExpDate']}', '${data['input-numOrderedItems']}','${data['input-pricePaid']}');
 
-INSERT into Reviews(customerID, overallRating, feedback)
-VALUES
-(:customerID_input_dropdown, overallRating_input, feedback_input);
+INSERT INTO Reviews (overallRating, feedback, customerID)
+               VALUES (${rating}, "${text}", "${id}")
 
--- --------------------------------------------------------------------------------------------
--- ---------------------------------DeleteStatements------------------------------------------
+-- *************************************************************************
+--                  Delete Statements
+--             3 delete statements, two for our M:N, one for Customers page
+-- ************************************************************************
 
-DELETE from Items where itemName = :itemName_input;
-Update orderItems
-set itemID, totalNumItems = NULL
-where itemID = (select itemID from Items where itemName = :itemName_input)
+DELETE FROM Customers WHERE customerID = ${data};
 
-DELETE FROM Categories
-WHERE categoryID = :categoryID_input_dropdown;
+-- M: N
+DELETE FROM Orders WHERE orderID = ${data};
 
-DELETE FROM Customers
-WHERE customerID = :customerID_input_dropdown;
+DELETE FROM Items WHERE itemID = ${data}
 
 
--- --------------------------------------------------------------------------------------------
--- -----------------------------Update  Statements---------------------------------------------
+-- *************************************************************************
+--                      Update Statements
+--                    Two updates for our M:N 
+-- ************************************************************************
 
-update Customers
-set address = :address_input
-where customerID  = :customerID_input_dropdown
+UPDATE Items 
+SET itemName = "${itemNameVal}", price = "${priceVal}"
+WHERE itemID = ${itemIDVal } AND reviewID = ${reviewIDVal} AND categoryID = ${categoryIDVal}
 
-
--- filter Reviews
-
-select * from Reviews 
-where overallRating >= :overallRating_input_dropdown
-and
-overallRating < (:overallRating_input_dropdown + 1)
-
-
-
-
-
-
-
-
-
-
+UPDATE Orders 
+SET orderDate = "${orderDateVal}",creditCardNumb = "${creditCarNumbVal}", 
+creditCardExpDate = "${creditCardExpDateVal}", numOrderedItems= "${numbOrderedItemVal}",
+pricePaid = "${pricePaidVal}"
+WHERE orderID = ${OrderIDVal} AND customerID = ${CustomerIDVal}
 

@@ -137,6 +137,7 @@
 
 {{!-- Updata An Order --}}
 <form id="update" method="POST" action="/update-order-form">
+<p> Match orderID and customerID in the database for accuracy. Thank you!!</p>
 <fieldset class="fields" id = "update-form">
      <legend><strong>Update An Order </strong></legend>
         <label><strong>orderID:</strong> </label>
@@ -147,14 +148,14 @@
                 {{/each}} 
            </select>
         </label>    
-        {{!-- <label><strong>CustomerID:</strong> </label>
+        <label><strong>CustomerID:</strong> </label>
            <select name="input-customerID" id="input-customerID">
-             <option value="test">Select a customer to update</option>
+             <option value="test">Select a customerID to update</option>
                 {{#each orders}}
-                <option value="{{this.customerID}}">({{this.customerID}})</option>
+                <option value="{{this.customerID}}">{{this.customerID}}</option>
                 {{/each}} 
            </select>
-        </label>     --}}
+        </label>    
         
     <label for="input-orderDate">order date: </label>
     <input type="date" name="input-orderDate" id="input-orderDate">

@@ -133,6 +133,7 @@
 <!--Update An Item -->
 <form id="update" method="POST" action="/update-item">
 <fieldset class="fields">
+    <p> Match ItemID and ReviewID in the database for accuracy. Thank you!!</p>
     <legend><strong>Update An Item </strong></legend>
          <label><strong>itemID:</strong> </label>
            <select name="update-itemID" id="update-itemID">
@@ -142,14 +143,14 @@
                 {{/each}}
            </select>
        
-        {{!-- <label><strong>reviewID:</strong> </label>
+        <label><strong>reviewID:</strong> </label>
            <select name="update-reviewID" id="update-reviewID">
             <option value="test">Select reviewID</option>
                 {{#each Items}}
                <option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
                 {{/each}}
            </select>
-        </label>     --}}
+        </label>   
     
         {{!-- <label><strong>categoryID:</strong> </label>
            <select name="update-categoryID" id="update-categoryID">
@@ -157,7 +158,7 @@
                 {{#each Items}}
              <option value="{{this.categoryID}}">{{this.categoryID}}</option>
                 {{/each}}
-           </select> --}}
+           </select>
 
     <label for="input-item-name">itemName: </label>
     <input type="text" name="input-item-name" id="input-item-name">
