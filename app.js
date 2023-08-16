@@ -184,7 +184,7 @@ app.post('/add-person-form', function(req, res){
             });
         }else
         {
-            res.redirect('/');
+            res.redirect('customers');
         }
     })
 })

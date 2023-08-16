@@ -85,8 +85,8 @@
 
   <!--insert a review-->
 <div id = "insert">
-
 <form id="addReviewForm" action="/add-review-form" method="post">
+  <legend><strong>Add a Review </strong></legend>
   <label for="overallRating">Rating: </label>
   <select id="overallRating" name="overallRating">
     <option value="1.0">1 Star</option>
@@ -96,14 +96,17 @@
     <option value="5.0">5 Star</option>
   </select>
 
-    <label for="feedbackText">Feedback </label>
+  <label for="feedbackText">Feedback </label>
   <input type="text" id="feedbackText" name="feedbackText">
 
-   <label for="CustomerID">CustomerID </label>
-  <input type="text" id="CustomerID" name="CustomerID">
-  <button type="submit">Add Review</button>
+  <select name="input-customerID" id="input-customerID">
+             <option value="test">Select a customerID to update</option>
+                {{#each Customers}}
+                <option value="{{this.customerID}}">{{this.customerID}}</option>
+                {{/each}} 
+           </select>
+   <button type="submit">Add</button>
 </form>
-
 </div>
 
 <form id="filterForm" action="/filterReviews" method="post">
