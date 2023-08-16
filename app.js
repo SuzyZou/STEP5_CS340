@@ -305,9 +305,10 @@ app.post('/filterReviews', function(req, res){
 
 // POST ROUTE
 app.post('/add-review-form',function(req,res){
+    console.log(req.body)
     let rating = req.body.overallRating;
     let text = req.body.feedbackText;
-    let id = req.body.CustomerID;
+    let id = req.body['input-customerID'];
   
     // Get values for other columns
   
