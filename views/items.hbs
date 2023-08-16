@@ -60,7 +60,8 @@
     <td><a href="#" onClick="newPerson()">Add</a></td>
     {{!-- <td><a href="#" onClick="searchCustomer()">Search</a></td> --}}
     <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
-    <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td> 
+    <td><a href="#">Too See OrdersItmes</a></td>  
+    
 </div>
 
 
@@ -76,6 +77,7 @@
                 {{@key}}
             </th>
             {{/each}}
+             
         </tr>
     </thead>
 
@@ -89,7 +91,8 @@
             <td>{{this.reviewID}}</td>
             <td>{{this.categoryID}}</td>
             <td>{{this.itemName}}</td>
-            <td>{{this.price}}</td>    
+            <td>{{this.price}}</td> 
+            {{!-- <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td>     --}}
         </tr>
         {{/each}}
     </tbody>
@@ -134,28 +137,28 @@
     <legend><strong>Update An Item </strong></legend>
          <label><strong>itemID:</strong> </label>
            <select name="update-itemID" id="update-itemID">
-            <option value="test">Select an item</option>
+            <option value="test">Select an itemID</option>
                 {{#each Items}}
                 <option value="{{this.itemID}}">{{this.itemID}}</option>
                 {{/each}}
            </select>
        
-        <label><strong>reviewID:</strong> </label>
+        {{!-- <label><strong>reviewID:</strong> </label>
            <select name="update-reviewID" id="update-reviewID">
             <option value="test">Select reviewID</option>
                 {{#each Items}}
                <option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
                 {{/each}}
            </select>
-        </label>    
+        </label>     --}}
     
-        <label><strong>categoryID:</strong> </label>
+        {{!-- <label><strong>categoryID:</strong> </label>
            <select name="update-categoryID" id="update-categoryID">
             <option value="test">Select categoryID</option>
                 {{#each Items}}
              <option value="{{this.categoryID}}">{{this.categoryID}}</option>
                 {{/each}}
-           </select>
+           </select> --}}
 
     <label for="input-item-name">itemName: </label>
     <input type="text" name="input-item-name" id="input-item-name">

@@ -100,26 +100,6 @@
 
 
 
-
-
-<!--Search An Order -->
-{{!-- <div id="search"   style="display: block" >           
-  <form method="POST" id="searchOrder" action = "/searchOrder">
-      <legend><strong>Search An Order</strong></legend>
-        <label><strong>OrderID:</strong> </label>
-           <select name="delete-customer" id="delete-customer">
-             <option value="test">Select a customer</option>
-            {{#each data}}
-           <option value="{{this.customerID}}">{{this.customerID}}</option>
-            {{/each}}
-        </select>
-          </label>     
-         <input class="btn" type="submit" id="addPerson" value="Search">
-        <input class="btn" type="button" value="cancel" onClick="browsePeople()">
-  </form> 
-</div> --}}
-
-
 <!--insert  An Order -->
 <form id="insert" method="POST" action="/add-order-form">
 <fieldset class="fields" id = "order-table">
@@ -162,20 +142,20 @@
      <legend><strong>Update An Order </strong></legend>
         <label><strong>orderID:</strong> </label>
            <select name="input-orderID" id="input-orderID">
-             <option value="test">Select a customer</option>
+             <option value="test">Select an orderID to update</option>
                 {{#each orders}}
                 <option value="{{this.orderID}}"> {{this.orderID}}</option>
                 {{/each}} 
            </select>
         </label>    
-        <label><strong>CustomerID:</strong> </label>
+        {{!-- <label><strong>CustomerID:</strong> </label>
            <select name="input-customerID" id="input-customerID">
-             <option value="test">Select a customer</option>
+             <option value="test">Select a customer to update</option>
                 {{#each orders}}
                 <option value="{{this.customerID}}">({{this.customerID}})</option>
                 {{/each}} 
            </select>
-        </label>    
+        </label>     --}}
         
     <label for="input-orderDate">order date: </label>
     <input type="date" name="input-orderDate" id="input-orderDate">
