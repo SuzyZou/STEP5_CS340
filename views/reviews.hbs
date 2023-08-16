@@ -98,9 +98,14 @@
 
   <label for="feedbackText">Feedback </label>
   <input type="text" id="feedbackText" name="feedbackText">
-
-   <label for="CustomerID">CustomerID </label>
-  <input type="text" id="CustomerID" name="CustomerID">
+ <label><strong>CustomerID:</strong> </label>
+           <select name="input-customerID" id="input-customerID">
+             <option value="test">Select a customer</option>
+                {{#each Customers}}
+                <option value="{{this.customerID}}"> {{this.firstName}} {{this.lastName}}({{this.customerID}})</option>
+                {{/each}} 
+           </select>
+        </label>    
   <button type="submit">Add Review</button>
 </form>
 </div>
