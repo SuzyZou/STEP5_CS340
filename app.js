@@ -285,6 +285,7 @@ app.post('/add-item-form',function(req,res){
 
 
 })
+
 app.post('/filterReviews', function(req, res){
     let data = parseFloat(req.body.filterBy)
 
@@ -303,41 +304,30 @@ app.post('/filterReviews', function(req, res){
 
 });
 
-// POST ROUTE
-app.post('/add-review-form',function(req,res){
-    console.log(req.body)
-    let rating = req.body.overallRating;
-    let text = req.body.feedbackText;
-    let id = req.body['input-customerID'];
-  
-    // Get values for other columns
-  
-    checkCustomerID = `SELECT COUNT(*) as COUNT from Customers where customerID = ${id};`;
-  
-    db.pool.query(checkCustomerID, function(err, result) {
-      if (err) {
-        console.error(err);
-        return res.sendStatus(500);
-      }
-  
-      if (result[0].count === 0) {
-        return res.status(400).json({ error: 'Customer does not exist' });
-      }
-  
-      // Construct SQL query to insert a new row
-      query = `INSERT INTO Reviews (overallRating, feedback, customerID)
-               VALUES (${rating}, "${text}", "${id}");`;
-               
-      db.pool.query(query, function(err, rows) {
-        if (err) {
-          console.error(err);
-          return res.sendStatus(500);
+app.post('/add-review-form', function (req, res) {
+    let data = req.body;
+    console.log("Received data from add-review-form:", data);
+    let customerID = data.customerID;
+    let overallRating = data.overallRating;
+    let feedback = data.feedback;
+
+    // Use placeholders to prevent SQL injection
+    let insertItems = `INSERT INTO Reviews (customerID, overallRating, feedback)
+                      VALUES (?, ?, ?)`;
+
+    db.pool.query(insertItems, [customerID, overallRating, feedback], function (error) {
+        if (error) {
+            console.log(error);
+            res.status(500).render('error', {
+                page: req.url,
+            });
+        } else {
+           console.log("Redirecting to /reviews")
+           res.redirect('/views/reviews.hbs');
         }
-  
-        return res.redirect('/reviews');
-      });
     });
 });
+
 
 
 app.post('/add-category-form',function(req,res){
@@ -352,14 +342,14 @@ app.post('/add-category-form',function(req,res){
                 errorTitle: "opps! page cant be found" 
             });
         }else{
-           res.redirect('/categories');
+           res.redirect('categories');
         }
           
      });
 
 });
 
-app.post('/update-item', function(req,res,next){
+app.post('/update-item', function(req,res){
     let data = req.body;
     console.log("data in update order from", data)
     let itemIDVal = data["update-itemID"];
