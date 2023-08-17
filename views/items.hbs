@@ -3,8 +3,8 @@
 <body onload="browsePeople()">
     <nav class="navbar">
         <ul class = "navlist">
-            <li class = "home"><a href="/">Home</a> </li>
-            <li class = "add_item_link"><a href="/customers">Customers</a></li>
+            <li class = "home"><a href="/home">Home</a> </li>
+            <li class = "add_item_link"><a href="/">Customers</a></li>
             <li class = "add_order_link"><a href = "/orders">Orders</a></li>
             <li class = "add_order_link"><a href = "/items">Items</a></li> 
             <li class = "add_order_link"><a href = "/reviews">Reviews</a></li>
@@ -57,8 +57,9 @@
  {{!-- buttons on the top of the page --}}
  <div id ="browse">
     <td><a href="#" onClick="newPerson()">Add</a></td>
-    <td><a href="/orderItems">To See OrdersItmes</a></td>  
-    
+    <td><a href="#" onclick="deletePerson('this.personID')">Delete</a></td>
+    <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td> 
+     <td><a href="/orderItems">To See OrdersItmes</a></td> 
 </div>
 
 
@@ -74,7 +75,6 @@
                 {{@key}}
             </th>
             {{/each}}
-             
         </tr>
     </thead>
 
@@ -88,8 +88,7 @@
             <td>{{this.reviewID}}</td>
             <td>{{this.categoryID}}</td>
             <td>{{this.itemName}}</td>
-            <td>{{this.price}}</td> 
-            {{!-- <td><a href="#" onClick="updatePerson('this.personID')">Update</a></td>     --}}
+            <td>{{this.price}}</td>    
         </tr>
         {{/each}}
     </tbody>
@@ -131,11 +130,10 @@
 <!--Update An Item -->
 <form id="update" method="POST" action="/update-item">
 <fieldset class="fields">
-    <p> Match ItemID and ReviewID in the database for accuracy. Thank you!!</p>
     <legend><strong>Update An Item </strong></legend>
          <label><strong>itemID:</strong> </label>
            <select name="update-itemID" id="update-itemID">
-            <option value="test">Select an itemID</option>
+            <option value="test">Select an item</option>
                 {{#each Items}}
                 <option value="{{this.itemID}}">{{this.itemID}}</option>
                 {{/each}}
@@ -148,9 +146,9 @@
                <option value="{{this.reviewID}}">{{this.reviewID}}</option></a>
                 {{/each}}
            </select>
-        </label>   
+        </label>    
     
-        {{!-- <label><strong>categoryID:</strong> </label>
+        <label><strong>categoryID:</strong> </label>
            <select name="update-categoryID" id="update-categoryID">
             <option value="test">Select categoryID</option>
                 {{#each Items}}
